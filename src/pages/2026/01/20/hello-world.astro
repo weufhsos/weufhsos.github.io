@@ -1,0 +1,27 @@
+---
+// 旧 Hexo 地址的兼容跳转页。
+// 该地址曾被搜索引擎收录，直接返回 404 会丢失外部链接的访问者。
+// 这里保留一个静态跳转页，并把 canonical 指向新地址。
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="页面已迁移"
+  description="这篇文章的地址已经变更，正在前往新的位置。"
+  canonicalPath="/posts/"
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, follow" />
+    <meta http-equiv="refresh" content="0; url=/posts/" />
+  </Fragment>
+
+  <section class="not-found container">
+    <p class="eyebrow">301 / Moved</p>
+    <h1>这篇文章<br /><em>已经搬走了。</em></h1>
+    <p>旧地址来自上一版站点，内容已经迁移到新的文章页。</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/posts/">前往文章页 <span aria-hidden="true">↗</span></a>
+      <a class="button button-quiet" href="/">回到首页 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

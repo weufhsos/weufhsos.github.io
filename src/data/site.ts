@@ -6,6 +6,8 @@ export const site = {
   intro:
     '我在这里记录实验、项目和那些值得留下来的工程判断。',
   github: 'https://github.com/weufhsos',
+  // 站点级社交分享图，用于首页等没有专属封面的页面
+  ogImage: '/og.png',
 };
 
 export const statusLabels = {

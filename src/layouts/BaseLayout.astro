@@ -12,6 +12,7 @@ interface Props {
   publishedTime?: Date;
   modifiedTime?: Date;
   image?: string;
+  canonicalPath?: string;
 }
 
 const {
@@ -21,10 +22,14 @@ const {
   publishedTime,
   modifiedTime,
   image,
+  canonicalPath,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.url).href;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, site.url).href;
 const fullTitle = title === site.name ? `${site.name} — ${site.description}` : `${title} — ${site.name}`;
-const imageUrl = image ? new URL(image, site.url).href : undefined;
+// 文章有专属封面时用封面；没有封面的普通页面回落到站点级分享图。
+// 文章页（type="article"）没有封面则明确不带图，避免误用首页通用的分享图。
+const socialImage = image ?? (type === 'website' ? site.ogImage : undefined);
+const imageUrl = socialImage ? new URL(socialImage, site.url).href : undefined;
 ---
 
 <!doctype html>
@@ -38,7 +43,9 @@ const imageUrl = image ? new URL(image, site.url).href : undefined;
     <meta name="color-scheme" content="light dark" />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
+    <slot name="head" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href={new URL('/rss.xml', site.url)} />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
