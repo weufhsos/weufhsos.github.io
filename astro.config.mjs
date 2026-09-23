@@ -1,0 +1,10 @@
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://weufhsos.github.io',
+  output: 'static',
+  trailingSlash: 'always',
+  integrations: [mdx(), sitemap()],
+});

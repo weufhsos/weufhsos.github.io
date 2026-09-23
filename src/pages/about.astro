@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="关于" description={`关于 ${site.name}：记录 AI Agent、自动化工具与工程实践。`}>
+  <div class="page-intro container">
+    <p class="eyebrow">关于 / About</p>
+    <h1>把每一次尝试，<br /><em>变成可复用的经验。</em></h1>
+  </div>
+
+  <section class="section container about-grid">
+    <div class="about-lead">
+      <p class="lead-copy">我是 {site.name}，目前把时间花在 Agent、自动化和软件工程实践上。这个网站用来记录我正在构建什么、为什么这样构建，以及后来改变了哪些判断。</p>
+      <a class="button button-primary" href={site.github} target="_blank" rel="noreferrer">查看 GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="about-details">
+      <div class="detail-block">
+        <p class="eyebrow">我关心</p>
+        <ul class="plain-list">
+          <li>Agent workflow 与自动化</li>
+          <li>Python / Go 工程实践</li>
+          <li>可解释、可维护的软件</li>
+          <li>把研究变成可以运行的东西</li>
+        </ul>
+      </div>
+      <div class="detail-block">
+        <p class="eyebrow">在这里你会看到</p>
+        <p>项目复盘、技术笔记、实验记录，以及一些还没有答案但值得继续追踪的问题。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container about-note">
+    <p class="eyebrow">写作原则</p>
+    <blockquote>先把问题说清楚，再决定要不要写代码。</blockquote>
+    <p>这句话是暂定版本。正式上线前，可以替换成更贴近你自己的表达。</p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,23 @@
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色模式">
+  <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+  <span class="theme-toggle-label">主题</span>
+</button>
+
+<script>
+  const button = document.querySelector<HTMLElement>('[data-theme-toggle]');
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+  if (savedTheme === 'dark' || savedTheme === 'light') {
+    root.dataset.theme = savedTheme;
+  } else {
+    root.dataset.theme = preferredTheme;
+  }
+
+  button?.addEventListener('click', () => {
+    const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = nextTheme;
+    localStorage.setItem('theme', nextTheme);
+  });
+</script>

@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="项目" description="正在探索和持续维护的 AI Agent、自动化工具与工程项目。">
+  <div class="page-intro container">
+    <p class="eyebrow">项目 / Works</p>
+    <h1>让想法离开草稿纸，<br /><em>开始真正运行。</em></h1>
+    <p class="page-intro-copy">项目页会记录问题、约束、取舍和结果，而不只是一个仓库链接。</p>
+  </div>
+
+  <section class="section container project-index" aria-labelledby="all-projects-title">
+    <div class="section-heading section-heading-row">
+      <h2 id="all-projects-title">项目档案</h2>
+      <span class="count-label">{projects.length} 个</span>
+    </div>
+    <div class="projects-grid projects-grid-index">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

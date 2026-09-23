@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到" description="你访问的页面不存在。">
+  <section class="not-found container">
+    <p class="eyebrow">404 / Not found</p>
+    <h1>这页暂时<br /><em>还没有被构建。</em></h1>
+    <p>地址可能已经改变，也可能只是一个还没写完的想法。</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/">回到首页 <span aria-hidden="true">↗</span></a>
+      <a class="button button-quiet" href="/posts/">浏览文章 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import { site } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const isActive = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
+---
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="wordmark" href="/" aria-label={`${site.name} 首页`}>
+      <span class="wordmark-mark" aria-hidden="true">a</span>
+      <span>{site.name}</span>
+    </a>
+
+    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-nav">
+      <span>菜单</span>
+      <span aria-hidden="true">↗</span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" data-primary-nav aria-label="主导航">
+      <a href="/posts/" aria-current={isActive('/posts') ? 'page' : undefined}>文章</a>
+      <a href="/projects/" aria-current={isActive('/projects') ? 'page' : undefined}>项目</a>
+      <a href="/about/" aria-current={isActive('/about') ? 'page' : undefined}>关于</a>
+      <a class="nav-external" href={site.github} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLElement>('[data-menu-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-primary-nav]');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.dataset.open === 'true';
+    if (nav) nav.dataset.open = String(!isOpen);
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>

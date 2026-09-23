@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { statusLabels } from '../../data/site';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <header class="project-detail-header container">
+    <a class="back-link" href="/projects/">← 全部项目</a>
+    <div class="project-detail-kicker">
+      <span class="eyebrow">项目 / {statusLabels[project.data.status]}</span>
+      <span class="project-detail-number">/{String(project.data.order).padStart(2, '0')}</span>
+    </div>
+    <h1>{project.data.title}</h1>
+    <p>{project.data.description}</p>
+    <div class="project-detail-links">
+      <a class="button button-primary" href={project.data.repoUrl} target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">↗</span></a>
+      {project.data.demoUrl && <a class="button button-quiet" href={project.data.demoUrl} target="_blank" rel="noreferrer">在线演示 <span aria-hidden="true">↗</span></a>}
+    </div>
+  </header>
+
+  <section class="section container project-detail-body">
+    <aside class="project-detail-aside">
+      <p class="eyebrow">技术栈</p>
+      <ul class="tech-list tech-list-large">
+        {project.data.languages.map((language) => <li>{language}</li>)}
+      </ul>
+    </aside>
+    <div class="prose"><Content /></div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../data/site';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+---
+
+<article class:list={["post-list-item", { featured }]}>
+  <div class="post-list-meta">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+    <span aria-hidden="true">·</span>
+    <span>{post.data.readingTime} min read</span>
+  </div>
+  <h3><a href={`/posts/${post.id}/`}>{post.data.title}</a></h3>
+  <p>{post.data.description}</p>
+  {post.data.tags.length > 0 && (
+    <ul class="tag-list" aria-label="文章标签">
+      {post.data.tags.slice(0, 3).map((tag) => <li>#{tag}</li>)}
+    </ul>
+  )}
+</article>

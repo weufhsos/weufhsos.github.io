@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostListItem from '../../components/PostListItem.astro';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="文章" description="关于 AI Agent、自动化工具与工程实践的文章和实验记录。">
+  <div class="page-intro container">
+    <p class="eyebrow">文章 / Notes</p>
+    <h1>把过程写下来，<br /><em>让思考有迹可循。</em></h1>
+    <p class="page-intro-copy">不追求每天更新，只记录那些经过实践、值得回头看的东西。</p>
+  </div>
+
+  <section class="section container post-index" aria-labelledby="all-posts-title">
+    <div class="section-heading section-heading-row">
+      <h2 id="all-posts-title">全部文章</h2>
+      <span class="count-label">{posts.length} 篇</span>
+    </div>
+    <div class="post-index-list">
+      {posts.map((post) => <PostListItem post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

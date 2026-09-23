@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { statusLabels } from '../data/site';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-card">
+  <div class="project-card-topline">
+    <span class="project-index" aria-hidden="true">/{String(project.data.order).padStart(2, '0')}</span>
+    <span class="status-pill">{statusLabels[project.data.status]}</span>
+  </div>
+  <h3><a href={`/projects/${project.id}/`}>{project.data.title}</a></h3>
+  <p>{project.data.description}</p>
+  <div class="project-card-footer">
+    <ul class="tech-list" aria-label="技术栈">
+      {project.data.languages.map((language) => <li>{language}</li>)}
+    </ul>
+    <a class="arrow-link" href={`/projects/${project.id}/`} aria-label={`查看 ${project.data.title} 项目详情`}>查看 ↗</a>
+  </div>
+</article>

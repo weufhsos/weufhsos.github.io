@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Comments from '../../components/Comments.astro';
+import { formatDate } from '../../data/site';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const published = formatDate(post.data.pubDate);
+const updated = post.data.updatedDate ? formatDate(post.data.updatedDate) : undefined;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
+  image={post.data.cover}
+>
+  <article class="article-page container">
+    <header class="article-header">
+      <p class="eyebrow">{post.data.tags[0] ?? '记录'} / {post.data.readingTime} min read</p>
+      <h1>{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+      <div class="article-meta">
+        <time datetime={post.data.pubDate.toISOString()}>发表于 {published}</time>
+        {updated && <><span aria-hidden="true">·</span><time datetime={post.data.updatedDate?.toISOString()}>更新于 {updated}</time></>}
+      </div>
+    </header>
+
+    <div class="article-grid">
+      <aside class="article-aside">
+        <a class="back-link" href="/posts/">← 全部文章</a>
+        <div class="article-aside-line"></div>
+        <p class="eyebrow">本文标签</p>
+        <ul class="tag-list">
+          {post.data.tags.map((tag) => <li>#{tag}</li>)}
+        </ul>
+      </aside>
+      <div class="prose">
+        <Content />
+        <div class="article-endnote">
+          <span aria-hidden="true">✳</span>
+          <p>感谢阅读。如果这篇文章对你有帮助，欢迎在评论区留下想法。</p>
+        </div>
+        <Comments />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+
+# 本地工具缓存与工作日志，不进版本库
+.workbuddy/
+
+# 构建或检查过程产生的日志
+*.log
